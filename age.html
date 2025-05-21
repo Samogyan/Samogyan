@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Age Calculator</title>
+    <style>
+        /* Full Screen Layout */
+        body, html {
+            height: 100%;
+            
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        
+        footer {
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 2px 0; /* Reduce padding */
+    height: 35px; /* Set a fixed height */
+    width: 100%;
+    position: flex;
+    bottom: 0;
+    line-height: 2px; /* Vertically centers text */
+}
+        
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom right, #FF69B4, #007bff);
+        }
+        
+        
+        
+        .content {
+            width: 75%;
+            max-width: 600px;
+            background-color: white;
+            padding: 35px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin-top: 80px; /* To prevent overlap with header */
+            text-align: center;
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .result span {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+       
+
+.btn{
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+
+header {
+            background-color: #007bff;
+            padding: 5px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 80px;
+            width: 100%;
+        }
+        header h1 {
+            font-size: 2rem;
+         
+         color: white; 
+    text-align: center;
+
+
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SamoGyan</h1>
+</header>
+
+
+<div class="container">
+    <div class="content">
+     <h1>Age Calculator</h1>
+        <label for="dob">Enter Your Date of Birth (mm/dd/yyyy):</label>
+        <input type="date" id="dob" name="dob">
+
+        <label for="upTo">Select the Date to Calculate Age Up To:</label>
+        <input type="date" id="upTo" name="upTo">
+
+        <button class="btn" onclick="window.location.href='index.html'">Return</button>
+        <button onclick="calculateAge()">Calculate Age</button>
+
+        <div class="result" id="result"></div>
+    </div>
+</div>
+<footer>
+        <p>© 2025 SamoGyan |  All Rights Reserved.
+
+</p>
+    </footer>
+
+<script>
+    // Function to format date in dd/mm/yyyy format
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    // Set the current date as the default for both date of birth and "Up to" date
+    document.getElementById('dob').value = formatDate(new Date());
+    document.getElementById('upTo').value = formatDate(new Date());
+
+    function calculateAge() {
+        const dob = document.getElementById('dob').value;
+        const upToDate = document.getElementById('upTo').value;
+
+        if (!dob || !upToDate) {
+            alert('Please enter both dates!');
+            return;
+        }
+
+        const birthDate = new Date(dob.split('/').reverse().join('-')); // Convert dd/mm/yyyy to yyyy-mm-dd
+        const upTo = new Date(upToDate.split('/').reverse().join('-')); // Convert dd/mm/yyyy to yyyy-mm-dd
+
+        let age = upTo.getFullYear() - birthDate.getFullYear();
+        const m = upTo.getMonth() - birthDate.getMonth();
+
+        if (m < 0 || (m === 0 && upTo.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        const months = upTo.getMonth() - birthDate.getMonth();
+        const days = upTo.getDate() - birthDate.getDate();
+
+        let ageString = `${age} Years, ${months < 0 ? months + 12 : months} Months, ${days} Days`;
+
+        // Display result in dd/mm/yyyy format
+        document.getElementById('result').innerHTML = `<p>Your Age as of ${upToDate}: <span>${ageString}</span></p>`;
+    }
+</script>
+
+</body>
+</html>
