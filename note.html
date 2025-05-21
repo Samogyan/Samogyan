@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QWMYCQEPC3');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Kanya's World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.5;
+            background: linear-gradient(to bottom right, #FF69B4, #007bff);
+            color: #fff;
+            text-align: center;
+            padding-bottom: 80px; /* Prevent footer overlap */
+        }
+        header {
+    width: 100%;
+    height: 80px; /* Controls the strip height */
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    display: flex;
+    align-items: center; /* Vertically centers text */
+    justify-content: center; /* Centers text */
+    font-size: 1.3rem;
+    font-weight: bold;
+    position: fixed; /* Fixes header at top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0 20px; /* Adds padding inside */
+    position: fixed;
+}
+
+        /* Centering Study Point */
+header h1 {
+    flex-grow: 1; /* Ensures it stays centered */
+    text-align: center;
+    margin: 0;
+}
+
+
+        .container {
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .container h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        .button {
+            padding: 10px 20px;
+            color: #FF69B4;
+            background-color: #fff;
+            border: 2px solid #FF69B4;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button:hover {
+            background-color: #FFB6C1;
+            transform: scale(1.05);
+        }
+        #alertMessage {
+            margin: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        #alertMessage.success {
+            background-color: #28a745;
+            color: white;
+        }
+        #alertMessage.error {
+            background-color: #dc3545;
+            color: white;
+        }
+        footer {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 2px 0;
+            height: 40px;
+            width: 100%;
+            position: flexed;
+            bottom: 0;
+            line-height: 30px;
+        }
+        .note-item {
+            background-color: #fff;
+            color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #FF69B4;
+            position: relative;
+            word-wrap: break-word;
+        }
+        .note-item pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .note-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .note-item a:hover {
+            text-decoration: underline;
+        }
+        .dot-menu {
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 10px;
+            border: 1px solid #FF69B4;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: #fff;
+            color: #FF69B4;
+        }
+        .dot-menu-options {
+            display: none;
+            position: absolute;
+            background: #fff;
+            color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        .dot-menu-options button {
+            background: #fff;
+            color: #FF69B4;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            width: 100%;
+            display: block;
+        }
+        .dot-menu-options button:hover {
+            background-color: #FFB6C1;
+        }
+        textarea {
+            width: 100%;
+            height: 170px;
+            padding: 10px;
+            border: 2px solid #FF69B4;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            background-color: #fff;
+            color: #333;
+            margin-top: 10px;
+        }
+        
+        
+        <!-- 
+        🔍
+    -->
+    
+   .search-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    width: 70%;
+    padding: 10px;
+    border: 2px solid #FF69B4;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.search-box button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #FF69B4;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.search-box button:hover {
+    background-color: #ff80c0;
+    transform: scale(1.05);
+}
+
+     <!-- ⚠️⚠️ -->
+     
+     /* 🤕🤕menuuk */
+   .menu-iconk {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Sidebar Below Header */
+        .sidebark {
+            width: 250px;
+            position: fixed;
+            left: -260px;
+            top: 70px; /* Position menu below the fixed header */
+            height: calc(100% - 50px); /* Adjust height to not overlap header */
+            background: #0056b3;
+            color: white;
+            transition: 0.2s;
+            padding-top: 10px;
+            overflow-y: auto;
+            z-index:1000;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        
+
+        .sidebark a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: white;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        /* Remove hover effect */
+        .sidebark a:hover {
+            background: inherit;
+        }
+
+        .submenuk {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .showk {
+            display: block;
+        }
+
+        .openk {
+            left: 0;
+        }
+
+        /* Push main content down so it doesn't hide behind header */
+        .contentk {
+            padding-top: 60px;
+        }        
+     
+     
+     
+    </style>
+</head>
+<body>
+<header>
+ <span class="menu-iconk" id="menu-iconk" onclick="toggleMenuk()">☰</span>
+ <h1 id="headerClick">SamoGyan</h1>
+    
+</header>
+
+<!--  -->
+ <div class="sidebark" id="sidebark">
+        <a href="index.html">Home</a>
+        <a href="#" onclick="toggleSubmenuk()">Subject ▼</a>
+        <div class="submenuk" id="submenuk">
+            <a href="phy11.html">Physics 11</a>
+            <a href="che11.html">Chemistry 11</a>
+            <a href="math11.html">Maths 11</a>
+            <a href="p12.html">Physics 12</a>
+            <a href="chemistry12.html">Chemistry 12</a>
+            <a href="math12.html">Maths 12</a>
+        </div>
+        <a href="index.html#reso">Resources</a>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#contact">Contact Me</a>
+        <a href="privacy.html">Privacy Policy</a>
+    </div>
+
+    
+        
+    </div>
+    
+<div class="alert-strip">
+        <div class="alert-wrapper">
+            <span class="alert-text">
+                  ⚠ **ALERT:** 
+                 ANY DATA YOU SAVE, SUCH AS NOTES OR OTHER ENTRIES, IS STORED LOCALLY IN YOUR BROWSER.  
+                **IMPORTANT:** CLEARING YOUR BROWSER DATA WILL PERMANENTLY DELETE ANY SAVED INFORMATION. ⚠
+                &nbsp;&nbsp;&nbsp;&nbsp; <!-- Space between repetitions -->
+            </span>
+            <span class="alert-text">
+                ⚠ **ALERT:** 
+                 ANY DATA YOU SAVE, SUCH AS NOTES OR OTHER ENTRIES, IS STORED LOCALLY IN YOUR BROWSER.  
+                **IMPORTANT:** CLEARING YOUR BROWSER DATA WILL PERMANENTLY DELETE ANY SAVED INFORMATION. ⚠
+            </span>
+        </div></div>
+    
+
+<div class="container" id="notes">
+    <h2>Note Tool</h2>
+    <p>Save your important notes. You can edit or delete them anytime.</p>
+    <textarea id="noteInput" placeholder="Write your note here..."></textarea><br><br>
+    <button class="button" onclick="saveNote()">Save Note</button>
+    <button class="button" onclick="window.location.href='index.html'">Return</button>
+    <div id="alertMessage"></div>
+</div>
+
+<!-- Search Bar -->
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Enter Note #No.">
+    <button onclick="searchNote()">Search</button>
+</div>
+
+
+<div class="container" id="viewNotes">
+    <h2>My Notes</h2>
+    <div id="savedNotesSection" class="note-list"></div>
+</div>
+
+<footer>
+    <p>© 2025 SamoGyan |  All Rights Reserved.
+
+</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadNotes();
+    });
+
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+    function saveNote() {
+        const noteInput = document.getElementById('noteInput');
+        let noteText = noteInput.value.trim();
+        if (noteText === "") {
+            showAlert("Please enter a note.", "error");
+            return;
+        }
+
+        // Check if the note is code (contains common code syntax)
+        if (/[\{\};<>]/.test(noteText)) {
+            noteText = "<pre>" + noteText.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</pre>";
+        } 
+        // Check if note contains a URL and convert to clickable link
+        else if (noteText.startsWith("http") || noteText.includes("www.")) {
+            noteText = `<a href="${noteText}" target="_blank">${noteText}</a>`;
+        }
+
+        notes.push(noteText);
+        localStorage.setItem('notes', JSON.stringify(notes));
+
+        noteInput.value = "";
+        showAlert("Note saved successfully!", "success");
+        loadNotes();
+    }
+
+    function loadNotes() {
+        const savedNotesSection = document.getElementById('savedNotesSection');
+        savedNotesSection.innerHTML = "";
+
+        notes.forEach((note, index) => {
+            const noteItem = document.createElement('div');
+            noteItem.classList.add('note-item');
+            noteItem.innerHTML = `
+                <strong>Note #${index + 1}:</strong> <div id="note-text-${index}">${note}</div>
+                <span class="dot-menu" onclick="toggleMenu(event)">...</span>
+                <div class="dot-menu-options">
+                    <button onclick="editNote(${index})">Edit</button>
+                    <button onclick="deleteNote(${index})">Delete</button>
+                </div>
+            `;
+            savedNotesSection.appendChild(noteItem);
+        });
+    }
+
+    function editNote(index) {
+        const noteText = notes[index].replace(/<\/?pre>/g, "");
+        document.getElementById('noteInput').value = noteText;
+        deleteNote(index);
+    }
+    
+    function toggleMenu(event) {
+    const menu = event.target.nextElementSibling;
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function editNote(index) {
+    const noteText = notes[index];
+    document.getElementById('noteInput').value = noteText;
+    deleteNote(index); // Remove old note before editing
+}
+
+
+    function deleteNote(index) {
+        notes.splice(index, 1);
+        localStorage.setItem('notes', JSON.stringify(notes));
+        loadNotes();
+    }
+
+    function showAlert(message, type) {
+        const alertMessage = document.getElementById('alertMessage');
+        alertMessage.textContent = message;
+        alertMessage.className = type;
+        alertMessage.style.display = 'block';
+        setTimeout(() => alertMessage.style.display = 'none', 1200);
+    }
+    
+    <!--  -->
+    function searchNote() {
+    let query = document.getElementById("searchInput").value.trim().toLowerCase();
+    let notes = document.querySelectorAll(".note-item"); // Select all note elements
+    let found = false;
+
+    notes.forEach(note => {
+        let noteText = note.innerText.toLowerCase();
+        
+        if (noteText.includes(query)) {
+            found = true;
+            note.scrollIntoView({ behavior: "smooth", block: "center" }); // Scroll to note
+            note.style.backgroundColor = "yellow"; // Highlight
+
+            // Remove highlight after 3 seconds
+            setTimeout(() => {
+                note.style.backgroundColor = "";
+            }, 3000);
+        }
+    });
+
+    if (!found) {
+        alert("Note not found!");
+    }
+}
+
+
+        <!-- header clicking-->
+        document.getElementById("headerClick").addEventListener("click", function () {
+    window.location.href = "index.html"; // Redirects to the homepage
+});
+
+     /* 🤕🤕🤕 */
+        /* menu in header 🤕*/
+ function toggleMenuk() {
+            let sidebark = document.getElementById("sidebark");
+            let menuIconk = document.getElementById("menu-iconk");
+
+            sidebark.classList.toggle("openk");
+
+            // Change icon based on menu state
+            if (sidebark.classList.contains("openk")) {
+                menuIconk.innerHTML = "✖"; // Close icon
+            } else {
+                menuIconk.innerHTML = "☰"; // Menu icon
+            }
+        }
+
+        function toggleSubmenuk() {
+            document.getElementById("submenuk").classList.toggle("showk");
+        }
+</script>
+
+<style>
+      .alert-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            z-index: 100;
+            margin-top:74px;
+        }
+
+        /* Scrolling Text Wrapper */
+        .alert-wrapper {
+            display: flex;
+            width: 200%;
+        }
+
+        /* Sliding Alert Message */
+        .alert-text {
+            display: inline-block;
+            animation: slideText 35s linear infinite;
+            animation-delay: 0.4s; 
+        }
+
+        /* Continuous Scroll Animation */
+        @keyframes slideText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        </style>
+        
+
+</body>
+</html>
