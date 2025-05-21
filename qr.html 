@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QWMYCQEPC3');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>QR Code Generator</title>
+    <script src="q.js"></script> <!-- Using your existing q.js -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom right, #FF69B4, #007bff);
+            padding-bottom: 60px;
+            padding-top: 60px;
+        }
+
+        .container {
+        
+            width: 75%;
+            max-width: 600px;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            text-align: center;
+            
+            
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        button {
+            width: 92%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+        }
+
+        button:nth-of-type(1) { background-color: #4CAF50; } /* Generate */
+        button:nth-of-type(2) { background-color: #007bff; } /* Download */
+        button:nth-of-type(3) { background-color: #ff5722; } /* Share */
+
+        button:hover {
+            filter: brightness(90%);
+        }
+
+        #qr-box {
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            display: inline-block;
+            border: 2px dashed #007bff; /* Permanent box */
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        span {
+            color: #6655ff;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+     <h1>SamoGyan</h1>
+     <hr>
+        <h2>QR Code Generator</h2>
+        <input type="text" id="qrText" placeholder="Enter text, link, or anything">
+        <button onclick="generateQR()">Generate QR Code</button>
+
+        <!-- Permanent QR Code Box -->
+        <div id="qr-box">
+            <p style="color: #bbb; font-size: 14px;">QR Code will appear here</p>
+        </div>
+
+        
+        <button onclick="shareQR()">Share QR</button>
+        <button onclick="window.location.href='index.html'">Return</button>
+        
+   
+     <p>© 2025 SamoGyan |  All Rights Reserved.
+
+</p>
+    </div>
+
+    <script>
+        let qrCode; // Store QR instance
+
+        function generateQR() {
+            let qrText = document.getElementById("qrText").value.trim();
+            let qrBox = document.getElementById("qr-box");
+            qrBox.innerHTML = ""; // Clear previous content
+
+            if (qrText === "") {
+                alert("Please enter text or a link to generate a QR code!");
+                qrBox.innerHTML = '<p style="color: #bbb; font-size: 14px;">QR Code will appear here</p>'; // Restore placeholder text
+                return;
+            }
+
+            qrCode = new QRCode(qrBox, {
+                text: qrText,
+                width: 200,
+                height: 200
+            });
+        }
+
+        function downloadQR() {
+            let qrCanvas = document.querySelector("#qr-box canvas");
+            if (qrCanvas) {
+                let link = document.createElement("a");
+                link.href = qrCanvas.toDataURL("image/png");
+                link.download = "QRCode.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                alert("Generate a QR code first!");
+            }
+        }
+
+        function shareQR() {
+            let qrCanvas = document.querySelector("#qr-box canvas");
+            if (qrCanvas) {
+                qrCanvas.toBlob(blob => {
+                    const file = new File([blob], "QRCode.png", { type: "image/png" });
+                    const filesArray = [file];
+
+                    if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+                        navigator.share({
+                            title: "QR Code",
+                            text: "Scan this QR code!",
+                            files: filesArray
+                        }).catch(error => console.log("Error sharing", error));
+                    } else {
+                        alert("Your browser doesn't support the share feature.");
+                    }
+                });
+            } else {
+                alert("Generate a QR code first!");
+            }
+        }
+    </script>
+
+</body>
+</html>
