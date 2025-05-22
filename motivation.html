@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QWMYCQEPC3');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SamoGyan - Motivational Quotes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+  
+
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    
+    header h1 {
+      color: white;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+    }
+
+    main {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 2rem;
+      color: #ff4081;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .refresh-btn {
+      background: #ce55ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background 0.3s;
+    }
+
+    .refresh-btn:hover {
+      background: #c440ff;
+    }
+
+    .quote-box {
+      background-color: white;
+      border-left: 6px solid #ff4081;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+      width: 100%;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .benefits-box {
+      background-color: #ffffff;
+      border-left: 6px solid #2196f3;
+      padding: 25px 30px;
+      border-radius: 10px;
+      margin-top: 40px;
+      width: 100%;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    }
+
+    .benefits-box h2 {
+      color: #1976d2;
+      font-size: 1.6rem;
+      margin-bottom: 40px;
+    }
+
+    .benefits-box ul {
+      list-style: disc;
+      padding-left: 20px;
+      font-size: 1.1rem;
+      color: #444;
+      line-height: 1.8;
+    }
+
+    
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      .quote-box,
+      .benefits-box {
+        font-size: 1rem;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SamoGyan</h1>
+  </header>
+
+  <main>
+    <h2><strong>Daily Motivation</strong></h2>
+    <button class="refresh-btn" onclick="refreshQuotes()">&#8635;</button>
+    <div id="quote-container"></div>
+
+    <section class="benefits-box">
+      <h2>Benefits of Motivation for Students</h2>
+      <ul>
+        <li>Improves focus and concentration during studies.</li>
+        <li>Boosts confidence to take on academic challenges.</li>
+        <li>Helps in setting and achieving goals effectively.</li>
+        <li>Encourages consistency and better time management.</li>
+        <li>Reduces stress and anxiety by keeping a positive mindset.</li>
+        <li>Inspires creativity, curiosity, and a love for learning.</li>
+        <li>Leads to better exam performance and overall growth.</li>
+      </ul>
+    </section>
+
+    <footer>
+      © 2025 <strong>SamoGyan</strong> | All Rights Reserved.
+    </footer>
+  </main>
+
+  <script>
+    const quotes = [
+      "Push yourself, because no one else is going to do it for you.",
+      "Success doesn’t just find you. You have to go out and get it.",
+      "The harder you work for something, the greater you'll feel when you achieve it.",
+      "Don’t wish it were easier. Wish you were better.",
+      "Do something today that your future self will thank you for.",
+      "Little things make big days.",
+      "It’s going to be hard, but hard does not mean impossible.",
+      "Great things never come from comfort zones.",
+      "Dream it. Wish it. Do it.",
+      "Stay focused and never give up.",
+      "Discipline is the bridge between goals and accomplishment.",
+      "You don’t have to be great to start, but you have to start to be great.",
+      "Believe in yourself, even when no one else does.",
+      "Believe you can and you're halfway there.",
+      "Your limitation—it’s only your imagination.",
+      "Don't stop when you're tired. Stop when you're done.",
+      "Sometimes later becomes never. Do it now.",
+      "Don’t wait for opportunity. Create it.",
+      "Be the change that you wish to see in the world.",
+      "Believe in yourself and all that you are.",
+      "Stay positive, work hard, make it happen.",
+      "The future depends on what you do today.",
+      "Don’t limit your challenges. Challenge your limits.",
+      "Success is not for the lazy.",
+      "Wake up with determination. Go to bed with satisfaction.",
+      "Family is not an important thing, it’s everything.",
+      "The love of family is life’s greatest blessing.",
+      "In family life, love is the oil that eases friction.",
+      "A happy family is but an earlier heaven.",
+      "Family gives you roots to stand tall and wings to fly.",
+      "A true friend is the greatest of all blessings.",
+      "Friends are the siblings God never gave us.",
+      "Friendship multiplies the good in life and divides the evil.",
+      "Good friends are like stars; you don’t always see them, but you know they’re always there.",
+      "Surround yourself with only people who are going to lift you higher.",
+      "Education is the most powerful weapon you can use to change the world.",
+      "Success is no accident. It’s hard work, perseverance, and learning.",
+      "Don’t watch the clock; do what it does — keep going.",
+      "The expert in anything was once a beginner.",
+      "Your future is created by what you do today, not tomorrow.",
+      "Where there is love, there is life.",
+      "Love yourself first, and everything else falls into line.",
+      "Love is the bridge between you and everything.",
+      "To love and be loved is to feel the sun from both sides.",
+      "Love is the only force capable of transforming an enemy into a friend.",
+      "This too shall pass.",
+      "Even the darkest night will end and the sun will rise.",
+      "You are stronger than your struggles.",
+      "It’s okay to ask for help and take time to heal.",
+      "Your story isn’t over yet; keep fighting."
+    ];
+
+    function getRandomQuotes(num) {
+      const shuffled = [...quotes].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, num);
+    }
+
+    function refreshQuotes() {
+      const container = document.getElementById('quote-container');
+      container.innerHTML = '';
+      const selectedQuotes = getRandomQuotes(4);
+      selectedQuotes.forEach(quote => {
+        const div = document.createElement('div');
+        div.className = 'quote-box';
+        div.textContent = quote;
+        container.appendChild(div);
+      });
+    }
+
+    // Load quotes on initial visit
+    refreshQuotes();
+  </script>
+
+</body>
+</html>
