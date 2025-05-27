@@ -166,11 +166,21 @@
     </section>
 
     <footer>
-      © 2025 <strong>SamoGyan</strong> | All Rights Reserved.
-    </footer>
+  <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
+</footer>
   </main>
 
   <script>
+
+// footer-year.js
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
+
+
     const quotes = [
       "Push yourself, because no one else is going to do it for you.",
       "Success doesn’t just find you. You have to go out and get it.",
