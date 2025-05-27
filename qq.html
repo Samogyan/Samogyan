@@ -105,13 +105,11 @@
         </div>
 
         
-        <button onclick="shareQR()">Share QR</button>
+      
         <button onclick="window.location.href='index.html'">Return</button>
         
    
-     <p>© 2025 SamoGyan |  All Rights Reserved.
-
-</p>
+    
     </div>
 
     <script>
@@ -170,7 +168,19 @@
                 alert("Generate a QR code first!");
             }
         }
+
+
+// footer-year.js
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
     </script>
+<footer>
+  <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
+</footer>
 
 </body>
 </html>
