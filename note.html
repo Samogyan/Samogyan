@@ -340,12 +340,19 @@ header h1 {
 </div>
 
 <footer>
-    <p>© 2025 SamoGyan |  All Rights Reserved.
-
-</p>
+  <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
 </footer>
 
 <script>
+
+
+// footer-year.js
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
     document.addEventListener("DOMContentLoaded", function() {
         loadNotes();
     });
