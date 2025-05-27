@@ -71,3 +71,12 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+
+// footer-year.js
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
