@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-QWMYCQEPC3');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QWMYCQEPC3');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>QR Code Generator</title>
     <script src="q.js"></script> <!-- Using your existing q.js -->
     <style>
@@ -26,10 +25,12 @@
             background: linear-gradient(to bottom right, #FF69B4, #007bff);
             padding-bottom: 60px;
             padding-top: 60px;
+            flex-direction: column;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .container {
-        
             width: 75%;
             max-width: 600px;
             background-color: white;
@@ -37,18 +38,19 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 20px;
             text-align: center;
-            
-            
+            box-sizing: border-box;
+            z-index: 1;
         }
 
         input {
             width: 90%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 10px 0 5px 0;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
             text-align: center;
+            box-sizing: border-box;
         }
 
         button {
@@ -61,6 +63,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
             color: white;
+            box-sizing: border-box;
         }
 
         button:nth-of-type(1) { background-color: #4CAF50; } /* Generate */
@@ -75,28 +78,53 @@
             margin: 20px auto;
             padding: 15px;
             background: white;
-            display: inline-block;
+            display: inline-flex;
             border: 2px dashed #007bff; /* Permanent box */
             width: 220px;
             height: 220px;
-            display: flex;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         span {
             color: #6655ff;
             margin-right: 20px;
         }
+
+        #charCount {
+            color: #555;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            user-select: none;
+        }
+
+        footer {
+            width: 100%;
+            padding: 15px 0;
+            background-color: #1a1a2e; /* Dark background */
+            color: #ccc;
+            text-align: center;
+            font-size: 0.9rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            font-family: 'Arial', sans-serif;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            user-select: none;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-     <h1>SamoGyan</h1>
-     <hr>
+        <h1>SamoGyan</h1>
+        <hr />
         <h2>QR Code Generator</h2>
-        <input type="text" id="qrText" placeholder="Enter text, link, or anything">
+        <input type="text" id="qrText" placeholder="Enter text, link, or anything" maxlength="230" oninput="updateCharCount()" />
+        <div id="charCount">0 / 230</div>
+
         <button onclick="generateQR()">Generate QR Code</button>
 
         <!-- Permanent QR Code Box -->
@@ -104,12 +132,7 @@
             <p style="color: #bbb; font-size: 14px;">QR Code will appear here</p>
         </div>
 
-        
-      
         <button onclick="window.location.href='index.html'">Return</button>
-        
-   
-    
     </div>
 
     <script>
@@ -169,18 +192,26 @@
             }
         }
 
+        function updateCharCount() {
+            const input = document.getElementById("qrText");
+            const count = input.value.length;
+            const charCount = document.getElementById("charCount");
+            charCount.textContent = `${count} / 230`;
+        }
 
-// footer-year.js
-document.addEventListener("DOMContentLoaded", () => {
-  const yearSpan = document.getElementById("year");
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
-});
+        // Initialize character count and footer year on DOM ready
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCharCount();
+            const yearSpan = document.getElementById("year");
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+        });
     </script>
-<footer>
-  <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
-</footer>
+
+    <footer>
+      <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
+    </footer>
 
 </body>
 </html>
