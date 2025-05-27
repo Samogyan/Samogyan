@@ -90,9 +90,10 @@ function toggleSubjects() {
         }
         
         
-        <!-- header clicking-->
-        document.getElementById("headerClick").addEventListener("click", function () {
-    window.location.href = "index.html"; // Redirects to the homepage
+       /* header clicking*/
+document.getElementById("headerClick").addEventListener("click", function (event) {
+    event.preventDefault(); // stops any default action, if present
+    // Do nothing else
 });
 
     /* share ↩️ */
