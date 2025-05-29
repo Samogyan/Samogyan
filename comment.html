@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SamoGyan Comments</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    form,
+    .comment-box {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    textarea {
+      height: 80px;
+      resize: vertical;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #alertMsg {
+      color: green;
+      margin-top: 8px;
+      display: none;
+    }
+    .comment-box {
+      position: relative;
+      display: flex;
+      gap: 12px;
+    }
+    .profile-circle {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: #007bff;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      user-select: none;
+      text-transform: uppercase;
+    }
+    .comment-content {
+      flex: 1;
+    }
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+    }
+    .comment-username {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .comment-time {
+      font-size: 0.85rem;
+      color: #888;
+      margin-left: 10px;
+    }
+    .comment-text {
+      white-space: pre-wrap;
+      font-size: 1rem;
+    }
+    .delete-btn {
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: #c00;
+      font-size: 1.1rem;
+      padding: 0 6px;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+    .delete-btn:hover {
+      color: #800;
+    }
+    /* Modal styles */
+    #confirmModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      font-family: Arial, sans-serif;
+    }
+    #confirmModal .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 320px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    #confirmModal p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    #confirmYes, #confirmNo {
+      margin: 0 10px;
+      padding: 8px 16px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #confirmYes {
+      background-color: #dc3545;
+      color: white;
+    }
+    #confirmYes:hover {
+      background-color: #a71d2a;
+    }
+    #confirmNo {
+      background-color: #6c757d;
+      color: white;
+    }
+    #confirmNo:hover {
+      background-color: #565e64;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💬 Share your thoughts about SamoGyan</h2>
+
+  <form id="commentForm" novalidate>
+    <div id="nameField">
+      <input type="text" name="name" placeholder="Your name" required />
+    </div>
+    <textarea name="comment" placeholder="Your comment..." required></textarea>
+    <br />
+    <button type="submit">Post Comment</button>
+    <div id="alertMsg">Comment posted!</div>
+  </form>
+
+  <div id="comments"></div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmModal">
+    <div class="modal-content">
+      <p>Are you sure you want to delete this comment?</p>
+      <button id="confirmYes">Yes, delete</button>
+      <button id="confirmNo">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, serverTimestamp, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDNCT34IkNLCPHfwIFz0cyr_0NQHy7YIGk",
+      authDomain: "samogyan-60d68.firebaseapp.com",
+      projectId: "samogyan-60d68",
+      storageBucket: "samogyan-60d68.appspot.com",
+      messagingSenderId: "241711635387",
+      appId: "1:241711635387:web:2ac38235dc19e960db829e",
+      measurementId: "G-ZP0ZB8M0V6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let visitorId = "";
+    let savedUsername = "";
+    let commentToDeleteId = null;
+    const foulWords = ["fuck", "motherfucker", "shit","Mother fucker","diddy","bsdk","rape","tatti","faltu"]; // Add real words here
+
+    // Load FingerprintJS via CDN script
+    async function loadFingerprint() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js';
+        script.async = true;
+        script.onload = () => resolve(window.FingerprintJS);
+        script.onerror = () => reject(new Error("FingerprintJS failed to load"));
+        document.head.appendChild(script);
+      });
+    }
+
+    function containsFoulWord(text) {
+      const lower = text.toLowerCase();
+      return foulWords.some(word => lower.includes(word));
+    }
+
+    function getInitials(name) {
+      return name
+        .split(' ')
+        .map(part => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
+    }
+
+    async function init() {
+      const FingerprintJS = await loadFingerprint();
+      const fp = await FingerprintJS.load();
+      const result = await fp.get();
+      visitorId = result.visitorId;
+
+      const userDocRef = doc(db, "users", visitorId);
+      const userDoc = await getDoc(userDocRef);
+      const nameInput = document.querySelector('input[name="name"]');
+
+      if (userDoc.exists()) {
+        savedUsername = userDoc.data().name;
+        nameInput.value = savedUsername;
+        nameInput.readOnly = true;
+      } else {
+        nameInput.readOnly = false;
+        nameInput.value = "";
+      }
+
+      loadComments();
+
+      const form = document.getElementById("commentForm");
+      const alertMsg = document.getElementById("alertMsg");
+      alertMsg.style.display = "none";
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const commentText = form.comment.value.trim();
+        let nameText = savedUsername || form.name.value.trim();
+
+        if (!nameText) {
+          alert("Please enter your name.");
+          return;
+        }
+        if (!commentText) {
+          alert("Comment can't be empty.");
+          return;
+        }
+        if (containsFoulWord(nameText) || containsFoulWord(commentText)) {
+          alert("Please avoid using inappropriate language.");
+          return;
+        }
+
+        if (!savedUsername) {
+          // Save username for this visitor
+          await setDoc(doc(db, "users", visitorId), { name: nameText });
+          savedUsername = nameText;
+          form.name.readOnly = true;
+        }
+
+        // Save comment with timestamp and visitorId
+        await addDoc(collection(db, "comments"), {
+          name: nameText,
+          comment: commentText,
+          createdAt: serverTimestamp(),
+          visitorId: visitorId,
+        });
+
+        form.comment.value = "";
+        alertMsg.style.display = "block";
+        setTimeout(() => (alertMsg.style.display = "none"), 2500);
+
+        loadComments();
+      });
+
+      // Modal buttons
+      const confirmModal = document.getElementById("confirmModal");
+      const confirmYes = document.getElementById("confirmYes");
+      const confirmNo = document.getElementById("confirmNo");
+
+      confirmYes.addEventListener("click", async () => {
+        if (commentToDeleteId) {
+          await deleteDoc(doc(db, "comments", commentToDeleteId));
+          commentToDeleteId = null;
+          confirmModal.style.display = "none";
+          loadComments();
+        }
+      });
+
+      confirmNo.addEventListener("click", () => {
+        commentToDeleteId = null;
+        confirmModal.style.display = "none";
+      });
+    }
+
+    async function loadComments() {
+      const commentsContainer = document.getElementById("comments");
+      commentsContainer.innerHTML = "Loading comments...";
+
+      const commentsQuery = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(commentsQuery);
+
+      commentsContainer.innerHTML = "";
+      if (querySnapshot.empty) {
+        commentsContainer.innerHTML = "<p>No comments yet. Be the first!</p>";
+        return;
+      }
+
+      querySnapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const commentId = docSnap.id;
+        const name = data.name || "Anonymous";
+        const commentText = data.comment || "";
+        const time = data.createdAt ? data.createdAt.toDate().toLocaleString() : "Just now";
+        const initials = getInitials(name);
+
+        const commentEl = document.createElement("div");
+        commentEl.className = "comment-box";
+
+        commentEl.innerHTML = `
+          <div class="profile-circle">${initials}</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <div>
+                <span class="comment-username">${name}</span>
+                <span class="comment-time">${time}</span>
+              </div>
+              ${data.visitorId === visitorId ? `<button class="delete-btn" title="Delete comment"data-id="${commentId}">&times;</button>` : ""}
+            </div>
+            <div class="comment-text">${escapeHtml(commentText)}</div>
+          </div>
+        `;
+
+        commentsContainer.appendChild(commentEl);
+      });
+
+      // Attach delete event listeners
+      document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", e => {
+          commentToDeleteId = e.target.getAttribute("data-id");
+          document.getElementById("confirmModal").style.display = "block";
+        });
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Initialize on load
+    window.onload = () => {
+      init().catch(console.error);
+    };
+  </script>
+
+</body>
+</html>
