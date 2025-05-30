@@ -150,6 +150,7 @@
   </form>
 
   <div id="comments"></div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import {
@@ -284,13 +285,15 @@
       const commentText = data.comment || "";
 
       let time = "Just now";
-      if (data.createdAt) {
-        const dateObj = data.createdAt.toDate();
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        time = `${day}/${month}/${year}`;
-      }
+if (data.createdAt) {
+  const dateObj = data.createdAt.toDate();
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const year = dateObj.getFullYear();
+  const hours = String(dateObj.getHours()).padStart(2, '0');
+  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+  time = `${day}/${month}/${year} at ${hours}:${minutes}`;
+}
 
       const initials = getInitials(name);
 
@@ -349,12 +352,18 @@
     <h2>Comment Guidelines & Information</h2>
     <ul>
       <li>💖 Be respectful to everyone.</li>
+<br>
       <li>🚫 Avoid foul language or spreading negativity.</li>
+<br>
       <li>📌 Keep comments constructive and on topic.</li>
+<br>
       <li>💾 Your username is saved per device/browser using FingerprintJS.</li>
+<br>
       <li>🔐 You cannot delete your own comments directly, but you’re welcome to contact us anytime to request removal.
 </li>
+<br>
       <li>🆕 Newest comments appear at the top.</li>
+<br>
     </ul>
   </div>
 </div>
