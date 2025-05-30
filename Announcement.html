@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Admin Messages - SamoGyan</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+
+header {
+    width: 100%;
+    height: 80px; /* Controls the strip height */
+    background: #007bff;
+    color: white;
+    display: flex;
+    align-items: center; /* Vertically centers text */
+    
+    justify-content: center; /* Centers text */
+    font-size: 2rem;
+    font-weight: bold;
+    position: fixed; /* Fixes header at top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0 20px; /* Adds padding inside */
+    position: fixed;
+}
+
+
+    
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .message-container {
+      max-width: 800px;
+      margin: 0 auto;
+      margin-top: 80px;
+    }
+
+    .message-card {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      margin-top: 10px;
+      
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .date {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .content {
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    footer {
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 2px 0; /* Reduce padding */
+    height: 40px; /* Set a fixed height */
+    width: 100%;
+    position: fix;
+    bottom: 0;
+    line-height: 30px; /* Vertically centers text */
+} 
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.5rem;
+        padding: 15px;
+      }
+      main {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+
+<header>
+    <h2>SamoGyan</h2>
+    
+</header>
+
+    
+      
+    
+
+    <main>
+        
+        
+        
+      <div class="message-container">
+
+      <h2>📢 Admin Announcements</h2>
+ <!-- Add more messages here as needed -->
+            
+            
+            
+            
+            
+            
+            
+            <div class="message-card">
+          <div class="date">Date: 2025-05-27</div>
+          <div class="title">🗣️we hear you</div>
+          <div class="content">
+            Drop your suggestion about samogyan website to nake it more relevant for you.
+          </div>
+        </div>
+      
+      
+      
+      
+      
+      
+      
+      
+        <!-- Admin Message 1 -->
+        <div class="message-card">
+          <div class="date">Date: 2025-04-28</div>
+          <div class="title">🎉 New Tool Released!</div>
+          <div class="content">
+            We have added a new BMI Calculator to the Tools section. Go try it and share your feedback!
+          </div>
+        </div>
+
+        <!-- Admin Message 2 -->
+        <div class="message-card">
+          <div class="date">Date: 2025-03-26</div>
+          <div class="title">🛠️ Website Maintenance</div>
+          <div class="content">
+            SamoGyan will be under maintenance on June 1 from 12 AM to 2 AM. Please plan accordingly.
+          </div>
+        </div>
+
+  
+
+      </div>
+    </main>
+
+    <footer>
+       <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
+    </footer>
+    
+    
+    
+    
+    
+  </div>
+  
+  
+  <script>// footer-year.js
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});</script>
+  
+</body>
+</html>
