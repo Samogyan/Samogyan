@@ -150,181 +150,192 @@
   </form>
 
   <div id="comments"></div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    setDoc,
+    doc,
+    getDoc,
+    serverTimestamp,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDNCT34IkNLCPHfwIFz0cyr_0NQHy7YIGk",
+    authDomain: "samogyan-60d68.firebaseapp.com",
+    projectId: "samogyan-60d68",
+    storageBucket: "samogyan-60d68.appspot.com",
+    messagingSenderId: "241711635387",
+    appId: "1:241711635387:web:2ac38235dc19e960db829e",
+    measurementId: "G-ZP0ZB8M0V6"
+  };
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDNCT34IkNLCPHfwIFz0cyr_0NQHy7YIGk",
-      authDomain: "samogyan-60d68.firebaseapp.com",
-      projectId: "samogyan-60d68",
-      storageBucket: "samogyan-60d68.appspot.com",
-      messagingSenderId: "241711635387",
-      appId: "1:241711635387:web:2ac38235dc19e960db829e",
-      measurementId: "G-ZP0ZB8M0V6"
-    };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  let visitorId = "";
+  let savedUsername = "";
+  const foulWords = ["fuck", "motherfucker", "shit", "mother fucker", "diddy", "bsdk", "rape", "tatti", "faltu","ADMIN-SamoGyan","Admin","Samogyan","Samogyan admin","samogyan-Admin","owner"];
 
-    let visitorId = "";
-    let savedUsername = "";
-    const foulWords = ["fuck", "motherfucker", "shit","Mother fucker","diddy","bsdk","rape","tatti","faltu"];
+  async function loadFingerprint() {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js';
+      script.async = true;
+      script.onload = () => resolve(window.FingerprintJS);
+      script.onerror = () => reject(new Error("FingerprintJS failed to load"));
+      document.head.appendChild(script);
+    });
+  }
 
-    async function loadFingerprint() {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js';
-        script.async = true;
-        script.onload = () => resolve(window.FingerprintJS);
-        script.onerror = () => reject(new Error("FingerprintJS failed to load"));
-        document.head.appendChild(script);
-      });
+  function containsFoulWord(text) {
+    const lower = text.toLowerCase();
+    return foulWords.some(word => lower.includes(word));
+  }
+
+  function getInitials(name) {
+    return name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase();
+  }
+
+  async function init() {
+    const FingerprintJS = await loadFingerprint();
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+    visitorId = result.visitorId;
+
+    const userDocRef = doc(db, "users", visitorId);
+    const userDoc = await getDoc(userDocRef);
+    const nameInput = document.querySelector('input[name="name"]');
+
+    if (userDoc.exists()) {
+      savedUsername = userDoc.data().name;
+      nameInput.value = savedUsername;
+      nameInput.readOnly = true;
+    } else {
+      nameInput.readOnly = false;
+      nameInput.value = "";
     }
 
-    function containsFoulWord(text) {
-      const lower = text.toLowerCase();
-      return foulWords.some(word => lower.includes(word));
-    }
+    loadComments();
 
-    function getInitials(name) {
-      return name
-        .split(' ')
-        .map(part => part[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase();
-    }
+    const form = document.getElementById("commentForm");
+    const alertMsg = document.getElementById("alertMsg");
+    alertMsg.style.display = "none";
 
-    async function init() {
-      const FingerprintJS = await loadFingerprint();
-      const fp = await FingerprintJS.load();
-      const result = await fp.get();
-      visitorId = result.visitorId;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const commentText = form.comment.value.trim();
+      let nameText = savedUsername || form.name.value.trim();
 
-      const userDocRef = doc(db, "users", visitorId);
-      const userDoc = await getDoc(userDocRef);
-      const nameInput = document.querySelector('input[name="name"]');
-
-      if (userDoc.exists()) {
-        savedUsername = userDoc.data().name;
-        nameInput.value = savedUsername;
-        nameInput.readOnly = true;
-      } else {
-        nameInput.readOnly = false;
-        nameInput.value = "";
+      if (!nameText) {
+        alert("Please enter your name.");
+        return;
       }
-
-      loadComments();
-
-      const form = document.getElementById("commentForm");
-      const alertMsg = document.getElementById("alertMsg");
-      alertMsg.style.display = "none";
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const commentText = form.comment.value.trim();
-        let nameText = savedUsername || form.name.value.trim();
-
-        if (!nameText) {
-          alert("Please enter your name.");
-          return;
-        }
-        if (!commentText) {
-          alert("Comment can't be empty.");
-          return;
-        }
-        if (containsFoulWord(nameText) || containsFoulWord(commentText)) {
-          alert("Please avoid using inappropriate language.");
-          return;
-        }
-
-        if (!savedUsername) {
-          await setDoc(doc(db, "users", visitorId), { name: nameText });
-          savedUsername = nameText;
-          form.name.readOnly = true;
-        }
-
-        await addDoc(collection(db, "comments"), {
-          name: nameText,
-          comment: commentText,
-          createdAt: serverTimestamp(),
-          visitorId: visitorId,
-        });
-
-        form.comment.value = "";
-        alertMsg.style.display = "block";
-        setTimeout(() => (alertMsg.style.display = "none"), 2500);
-
-        loadComments();
-      });
-    }
-
-    async function loadComments() {
-      const commentsContainer = document.getElementById("comments");
-      commentsContainer.innerHTML = "Loading comments...";
-
-      const commentsQuery = query(collection(db, "comments"), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(commentsQuery);
-
-      commentsContainer.innerHTML = "";
-      if (querySnapshot.empty) {
-        commentsContainer.innerHTML = "<p>No comments yet. Be the first!</p>";
+      if (!commentText) {
+        alert("Comment can't be empty.");
+        return;
+      }
+      if (containsFoulWord(nameText) || containsFoulWord(commentText)) {
+        alert("Please avoid using inappropriate language.");
         return;
       }
 
-      querySnapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        const name = data.name || "Anonymous";
-        const commentText = data.comment || "";
-        const time = data.createdAt ? data.createdAt.toDate().toLocaleString() : "Just now";
-        const initials = getInitials(name);
+      if (!savedUsername) {
+        await setDoc(doc(db, "users", visitorId), { name: nameText });
+        savedUsername = nameText;
+        form.name.readOnly = true;
+      }
 
-        const commentEl = document.createElement("div");
-        commentEl.className = "comment-box";
-
-        commentEl.innerHTML = `
-          <div class="profile-circle">${initials}</div>
-          <div class="comment-content">
-            <div class="comment-header">
-              <div>
-                <span class="comment-username">${name}</span>
-                <span class="comment-time">${time}</span>
-              </div>
-            </div>
-            <div class="comment-text">${escapeHtml(commentText)}</div>
-          </div>
-        `;
-
-        commentsContainer.appendChild(commentEl);
+      await addDoc(collection(db, "comments"), {
+        name: nameText,
+        comment: commentText,
+        createdAt: serverTimestamp(),
+        visitorId: visitorId,
       });
+
+      form.comment.value = "";
+      alertMsg.style.display = "block";
+      setTimeout(() => (alertMsg.style.display = "none"), 2500);
+      loadComments();
+    });
+  }
+
+  async function loadComments() {
+    const commentsContainer = document.getElementById("comments");
+    commentsContainer.innerHTML = "Loading comments...";
+
+    const commentsQuery = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(commentsQuery);
+
+    commentsContainer.innerHTML = "";
+    if (querySnapshot.empty) {
+      commentsContainer.innerHTML = "<p>No comments yet. Be the first!</p>";
+      return;
     }
 
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
+    querySnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const name = data.name || "Anonymous";
+      const commentText = data.comment || "";
 
-    window.onload = () => {
-      init().catch(console.error);
-    };
-    
-    
-    
-    
-    // Info modal logic
-const infoBtn = document.getElementById("infoBtn");
-const modal = document.getElementById("infoModal");
-const closeModal = document.getElementById("closeModal");
+      let time = "Just now";
+      if (data.createdAt) {
+        const dateObj = data.createdAt.toDate();
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+        time = `${day}/${month}/${year}`;
+      }
 
-infoBtn.onclick = () => modal.style.display = "block";
-closeModal.onclick = () => modal.style.display = "none";
-window.onclick = (e) => {
-  if (e.target == modal) modal.style.display = "none";
-};
-  </script>
+      const initials = getInitials(name);
+
+      const commentEl = document.createElement("div");
+      commentEl.className = "comment-box";
+
+      commentEl.innerHTML = `
+        <div class="profile-circle">${initials}</div>
+        <div class="comment-content">
+          <div class="comment-header">
+            <div>
+              <span class="comment-username">${name}</span>
+              <span class="comment-time">${time}</span>
+            </div>
+          </div>
+          <div class="comment-text">${escapeHtml(commentText)}</div>
+        </div>
+      `;
+
+      commentsContainer.appendChild(commentEl);
+    });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  window.onload = () => {
+    init().catch(console.error);
+  };
+
+  // Info Modal Logic
+  const infoBtn = document.getElementById("infoBtn");
+  const modal = document.getElementById("infoModal");
+  const closeModal = document.getElementById("closeModal");
+
+  infoBtn.onclick = () => modal.style.display = "block";
+  closeModal.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => {
+    if (e.target == modal) modal.style.display = "none";
+  };
+</script>
+  
   
   
   
