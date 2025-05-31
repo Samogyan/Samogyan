@@ -150,7 +150,6 @@
   </form>
 
   <div id="comments"></div>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
   import {
@@ -181,7 +180,11 @@
 
   let visitorId = "";
   let savedUsername = "";
-  const foulWords = ["fuck", "motherfucker", "shit", "mother fucker", "diddy", "bsdk", "rape", "tatti", "faltu","ADMIN-SamoGyan","Admin","Samogyan","Samogyan admin","samogyan-Admin","owner"];
+  const foulWords = [
+    "fuck", "shit", "bitch", "asshole", "dick", "pussy", "bsdk", "chutiya",
+    "madarchod", "bhenchod", "tatti", "rape", "motherfucker",
+    "f u", "f.u", "f.u.c.k", "admin-samogyan", "admin", "samogyan", "owner"
+  ];
 
   async function loadFingerprint() {
     return new Promise((resolve, reject) => {
@@ -195,8 +198,10 @@
   }
 
   function containsFoulWord(text) {
-    const lower = text.toLowerCase();
-    return foulWords.some(word => lower.includes(word));
+    // Clean input from special characters and extra spaces
+    const cleaned = text.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
+    // Check for exact foul words using word boundaries
+    return foulWords.some(word => new RegExp(`\\b${word}\\b`, 'i').test(cleaned));
   }
 
   function getInitials(name) {
@@ -285,22 +290,21 @@
       const commentText = data.comment || "";
 
       let time = "Just now";
-if (data.createdAt) {
-  const dateObj = data.createdAt.toDate();
-  const day = String(dateObj.getDate()).padStart(2, '0');
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const year = dateObj.getFullYear();
+      if (data.createdAt) {
+        const dateObj = data.createdAt.toDate();
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
 
-  let hours = dateObj.getHours();
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // 0 becomes 12
+        let hours = dateObj.getHours();
+        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 becomes 12
 
-  const timeStr = `${hours}:${minutes} ${ampm}`;
-  time = `${day}-${month}-${year} at ${timeStr}`;
-}
-
+        const timeStr = `${hours}:${minutes} ${ampm}`;
+        time = `${day}-${month}-${year} at ${timeStr}`;
+      }
 
       const initials = getInitials(name);
 
@@ -345,9 +349,6 @@ if (data.createdAt) {
     if (e.target == modal) modal.style.display = "none";
   };
 </script>
-  
-  
-  
   
   
   
