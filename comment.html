@@ -290,10 +290,13 @@ if (data.createdAt) {
   const day = String(dateObj.getDate()).padStart(2, '0');
   const month = String(dateObj.getMonth() + 1).padStart(2, '0');
   const year = dateObj.getFullYear();
-  const hours = String(dateObj.getHours()).padStart(2, '0');
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-  time = `${day}/${month}/${year} at ${hours}:${minutes}`;
-}
+  let hours = dateObj.getHours();
+const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+const ampm = hours >= 12 ? 'PM' : 'AM';
+hours = hours % 12;
+hours = hours ? hours : 12; // the hour '0' should be '12'
+const timeStr = `${hours}:${minutes} ${ampm}`;
+time = `${day}/${month}/${year} at ${timeStr}`;
 
       const initials = getInitials(name);
 
