@@ -1,76 +1,114 @@
-var age = document.getElementById("age");
-var height = document.getElementById("height");
-var weight = document.getElementById("weight");
-var male = document.getElementById("m");
-var female = document.getElementById("f");
-var form = document.getElementById("form");
-let resultArea = document.querySelector(".comment");
+const form = document.getElementById('bmi-form');
+const heightInput = document.getElementById('height');
+const weightInput = document.getElementById('weight');
 
-modalContent = document.querySelector(".modal-content");
-modalText = document.querySelector("#modalText");
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
+const resultContainer = document.getElementById('result-container');
+const bmiValueEl = document.getElementById('bmi-value');
+const bmiCategoryEl = document.getElementById('bmi-category');
+const bmiMessageEl = document.getElementById('bmi-message');
 
+const resetBtn = document.getElementById('reset-btn');
+const popup = document.getElementById('popup');
 
-function calculate(){
- 
-  if(age.value=='' || height.value=='' || weight.value=='' || (male.checked==false && female.checked==false)){
-    modal.style.display = "block";
-    modalText.innerHTML = `All fields are required!`;
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  calculateBMI();
+});
 
-  }else{
-    countBmi();
+resetBtn.addEventListener('click', () => {
+  resetForm();
+});
+
+function calculateBMI() {
+  const height = parseFloat(heightInput.value);
+  const weight = parseFloat(weightInput.value);
+
+  if (!height || !weight || height <= 0 || weight <= 0) {
+    showPopup('Please enter valid positive numbers for height and weight.');
+    return;
   }
 
-}
+  const bmi = weight / ((height / 100) ** 2);
+  const roundedBmi = bmi.toFixed(2);
 
+  // Determine category and message carefully with separate if-else
+  let category = '';
+  let message = '';
+  let categoryClass = '';
 
-function countBmi(){
-  var p = [age.value, height.value, weight.value];
-  if(male.checked){
-    p.push("male");
-  }else if(female.checked){
-    p.push("female");
+  if (bmi < 18.5) {
+    category = 'Underweight';
+    message = 'You are under the healthy weight range.⚠️';
+    categoryClass = 'underweight';
+  } else if (bmi >= 18.5 && bmi < 25) {
+    category = 'Healthy';
+    message = 'Great! You are within the healthy weight range.✅';
+    categoryClass = 'healthy';
+  } else if (bmi >= 25 && bmi < 30) {
+    category = 'Overweight';
+    message = 'You are slightly above the healthy weight range.⚠️';
+    categoryClass = 'overweight';
+  } else if (bmi >= 30 && bmi < 35) {
+    category = 'Obese';
+    message = 'It is advisable to take steps towards a healthier lifestyle.⚠️⚠️';
+    categoryClass = 'obese';
+  } else {
+    category = 'Extremely Obese';
+    message = 'Please consult with a healthcare professional.⚠️⚠️⚠️';
+    categoryClass = 'extremely-obese';
   }
 
-  var bmi = Number(p[2])/(Number(p[1])/100*Number(p[1])/100);
-      
-  var result = '';
-  if(bmi<18.5){
-    result = 'Underweight';
-     }else if(18.5<=bmi&&bmi<=24.9){
-    result = 'Healthy';
-     }else if(25<=bmi&&bmi<=29.9){
-    result = 'Overweight';
-     }else if(30<=bmi&&bmi<=34.9){
-    result = 'Obese';
-     }else if(35<=bmi){
-    result = 'Extremely obese';
-     }
+  bmiValueEl.textContent = roundedBmi;
+  bmiCategoryEl.textContent = category;
+  bmiCategoryEl.className = `bmi-category ${categoryClass}`;
+  bmiMessageEl.textContent = message;
 
+  resultContainer.classList.remove('hidden');
+  resetBtn.classList.remove('hidden');
+  form.querySelector('button').disabled = true;
+}
 
+function resetForm() {
+  form.reset();
+  resultContainer.classList.add('hidden');
+  resetBtn.classList.add('hidden');
+  form.querySelector('button').disabled = false;
+  bmiCategoryEl.className = 'bmi-category';
+  bmiValueEl.textContent = '--';
+  bmiMessageEl.textContent = '';
+}
 
-resultArea.style.display = "block";
-document.querySelector(".comment").innerHTML = `You are <span id="comment">${result}</span>`;
-document.querySelector("#result").innerHTML = bmi.toFixed(2);
+// Popup alert function
+function showPopup(message) {
+  popup.textContent = message;
+  popup.classList.add('show');
 
+  setTimeout(() => {
+    popup.classList.remove('show');
+  }, 3000);
 }
 
 
 
+   /* menu in header 🤕*/
+ function toggleMenuk() {
+            let sidebark = document.getElementById("sidebark");
+            let menuIconk = document.getElementById("menu-iconk");
 
+            sidebark.classList.toggle("openk");
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+            // Change icon based on menu state
+            if (sidebark.classList.contains("openk")) {
+                menuIconk.innerHTML = "✖"; // Close icon
+            } else {
+                menuIconk.innerHTML = "☰"; // Menu icon
+            }
+        }
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+        function toggleSubmenuk() {
+            document.getElementById("submenuk").classList.toggle("showk");
+        }
+
 
 
 // footer-year.js
@@ -80,3 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
     yearSpan.textContent = new Date().getFullYear();
   }
 });
+
+
+
+
+
+
