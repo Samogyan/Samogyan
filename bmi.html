@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-   
 <head>
-    <!-- Google tag (gtag.js) -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BMI Calculator - SamoGyan</title>
+
+
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -11,85 +16,84 @@
 
   gtag('config', 'G-QWMYCQEPC3');
 </script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="bmi.css">
-    <title>BMI Calculator</title>
+
+  <link rel="stylesheet" href="bmi.css" />
 </head>
 <body>
     
-
-    <div class="container">
-        <div class="box">
-         <h1>SamoGyan</h1>
-         <hr>
-          <h1>BMI Calculator</h1>
-          <div class="content">
-
-
-            <div class="input">
-                <label for="height">Age</label>
-                <input type="text" class="text-input" id="age" autocomplete="off" required/>
-            </div>
-
-            <div class="gender">
-
-                <label class="container">
-                    <input type="radio" name="radio" id="m"><p class="text">Male</p>
-                    <span class="checkmark"></span>
-                  </label>
-
-
-                <label class="container">
-                    <input type="radio" name="radio" id="f" ><p class="text">Female</p>
-                      <span class="checkmark"></span>
-                    </label>
-
-            </div>
-
-            <div class="containerHW">
-            <div class="inputH">
-              <label for="height">Height(cm)</label>
-              <input type="number" id="height" required>
-            </div>
-
-            <div class="inputW">
-              <label for="weight">Weight(kg)</label>
-              <input type="number" id="weight" required>
-            </div>
-          </div>
-
-            <button class="calculate" id="submit" onclick="calculate();">Calculate BMI</button>
-          </div>
-          <div class="result">
-            <p>Your BMI is</p>
-            <div id="result">00.00</div>
-            <p class="comment"></p>
-          </div>
-         <div class="footer"><a class="footer-text" target="_blank" href="index.html"><h2>Return</h2></a>
-          </div>
-        
-      
-<footer>
-  <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
-</footer>
-        
+    <header>
+    <span class="menu-iconk" id="menu-iconk" onclick="toggleMenuk()">☰</span>
+ <h1 id="headerClick">SamoGyan</h1>
+    
+</header>
+    <div class="sidebark" id="sidebark">
+        <a href="index.html">Home</a>
+        <a href="#" onclick="toggleSubmenuk()">Subject ▼</a>
+        <div class="submenuk" id="submenuk">
+            <a href="phy11.html">Physics 11</a>
+            <a href="che11.html">Chemistry 11</a>
+            <a href="math11.html">Maths 11</a>
+            <a href="p12.html">Physics 12</a>
+            <a href="chemistry12.html">Chemistry 12</a>
+            <a href="math12.html">Maths 12</a>
         </div>
+        <a href="index.html#reso">Resources</a>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#contact">Contact Me</a>
+        
+        <a href="announcement.html">Announcements</a>
+        <a href="privacy.html">Privacy Policy</a>
+        
+                <a href="copyright.html">Copyright Policy</a>
+        
+        
+        
+        
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScsQnEDAjzB425J0jbAkjx58aG0ofqGPBNqsQ28t5hC1HHLYQ/viewform?embedded=true', '_blank', 'width=600,height=800">Feedback</a>
+    </div>
+
+    
+        
+    </div>
+    
+    
+  <main class="container">
+    <section class="card">
+      <h1 class="title">BMI Calculator</h1>
+
+      <form id="bmi-form" novalidate>
+        <div class="input-group">
+          <label for="height">Height (cm)</label>
+          <input type="number" id="height" min="30" max="300" placeholder="Enter your height in cm" required />
+        </div>
+        <div class="input-group">
+          <label for="weight">Weight (kg)</label>
+          <input type="number" id="weight" min="1" max="500" placeholder="Enter your weight in kg" required />
+        </div>
+
+        <button type="submit" class="btn">Calculate BMI</button>
+      </form>
+
+      <div id="result-container" class="result-container hidden">
+        <h2>Your BMI</h2>
+        <div id="bmi-value" class="bmi-value">--</div>
+        <div id="bmi-category" class="bmi-category">--</div>
+        <p id="bmi-message" class="bmi-message"></p>
       </div>
 
-     
-      
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-      <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p id="modalText"></p>
-    </div></div>
+      <button id="reset-btn" class="btn reset-btn hidden">Reset</button>
+      <a href="index.html" class="btn return-btn">Return</a>
+    </section>
+  </main>
+  
+<footer>
+  <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
+  </footer>
+  <!-- Popup alert -->
+  <div id="popup" class="popup"></div>
 
-
-<script src="bmi.js"></script>
-
+  <script src="bmi.js"></script>
+  
+  
 </body>
 </html>
