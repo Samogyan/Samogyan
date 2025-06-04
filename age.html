@@ -1,114 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Age Calculator</title>
-    <style>
-        /* Full Screen Layout */
-        body, html {
-            height: 100%;
-            
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        
-        footer {
-    background: #007bff;
-    color: white;
-    text-align: center;
-    padding: 2px 0; /* Reduce padding */
-    height: 35px; /* Set a fixed height */
-    width: 100%;
-    position: flex;
-    bottom: 0;
-    line-height: 2px; /* Vertically centers text */
-}
-        
-        
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(to bottom right, #FF69B4, #007bff);
-        }
-        
-        
-        
-        .content {
-            width: 75%;
-            max-width: 600px;
-            background-color: white;
-            padding: 35px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            margin-top: 80px; /* To prevent overlap with header */
-            text-align: center;
-        }
-        input, button {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            font-size: 1.2rem;
-            color: #333;
-        }
-        .result span {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        
-       
-
-.btn{
-            background-color: #ff5722;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-
-header {
-            background-color: #007bff;
-            padding: 5px;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            height: 80px;
-            width: 100%;
-        }
-        header h1 {
-            font-size: 2rem;
-         
-         color: white; 
-    text-align: center;
-
-
-        }
-
-    </style>
+ 
+  
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
 <script>
@@ -118,85 +12,567 @@ header {
 
   gtag('config', 'G-QWMYCQEPC3');
 </script>
+    
+    
+
+ <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Age Calculator</title>
+  <style>
+    /* Existing CSS unchanged */
+     /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+      background: #f0f4ff;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      padding-top: 60px; /* space for header */
+      padding-bottom: 40px; /* space for footer */
+      background: #f0f4ff;
+    }
+    
+header {
+    width: 100%;
+    height: 120px; /* Controls the strip height */
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    display: flex;
+    align-items: center; /* Vertically centers text */
+    
+    justify-content: center; /* Centers text */
+    font-size: 2rem;
+    font-weight: bold;
+    position: fixed; /* Fixes header at top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0 20px; /* Adds padding inside */
+    position: fixed;
+}
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px; /* Moves it to the left edge */
+}
+
+/* Centering Study Point */
+header h1 {
+    flex-grow: 1; 
+    text-align: center;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: #007bff;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.9rem;
+      box-shadow: 0 -3px 8px rgba(0,0,0,0.25);
+      user-select: none;
+      z-index: 100;
+    }
+    
+    .container {
+      background: #e6f0ff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-sizing: border-box;
+      user-select: none;
+    }
+    
+    .content {
+      background: white;
+      border-radius: 20px;
+      padding: 25px 20px;
+      box-sizing: border-box;
+      user-select: none;
+      text-align: center;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    
+    
+    
+    .content h1 {
+      color: #007bff;
+      margin-bottom: 25px;
+      font-size: 1.9rem;
+      line-height: 1.2;
+    }
+    
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #333;
+      font-size: 1.05rem;
+      text-align: left;
+    }
+    
+    input[type='date'] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 7px;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    
+    input[type='date']:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    
+    button {
+      width: 100%;
+      padding: 13px 0;
+      margin-top: 28px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+    
+    .calculate {
+      background-color: #4caf50;
+      color: white;
+    }
+    
+    .calculate:hover,
+    .calculate:focus {
+      background-color: #43a047;
+      outline: none;
+    }
+    
+    .return {
+      background-color: #ff5722;
+      color: white;
+    }
+    
+    .return:hover,
+    .return:focus {
+      background-color: #e64a19;
+      outline: none;
+    }
+    
+    .result {
+      margin-top: 25px;
+      font-size: 1.15rem;
+      color: #333;
+      text-align: left;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-in-out forwards;
+      user-select: text;
+      line-height: 1.4;
+    }
+    
+    .result span {
+      color: #4caf50;
+      font-weight: 700;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding-top: 50px;
+        padding-bottom: 50px;
+      }
+      
+      header {
+        font-size: 1.5rem;
+        height: 50px;
+      }
+      
+      footer {
+        font-size: 0.85rem;
+        height: 35px;
+      }
+      
+      .container {
+        max-width: 100%;
+        border-radius: 15px;
+        padding: 20px 15px;
+      }
+      
+      .content {
+        min-height: auto;
+        padding: 20px 15px;
+      }
+      
+      label {
+        font-size: 1rem;
+      }
+      
+      input[type='date'] {
+        font-size: 0.95rem;
+        padding: 10px 12px;
+      }
+      
+      button {
+        font-size: 1rem;
+        padding: 12px 0;
+      }
+      
+      .result {
+        font-size: 1rem;
+        margin-top: 20px;
+      }
+    }
+    
+    /* Popup styles unchanged */
+    .popup {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      border: 2px solid #007bff;
+      color: #333;
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      font-size: 1rem;
+      z-index: 9999;
+      display: none;
+      animation: popupFade 0.4s ease;
+      max-width: 90vw;
+      text-align: center;
+      word-wrap: break-word;
+    }
+    
+    @keyframes popupFade {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    
+    
+    
+    /* 🤕🤕menuuk */
+   .menu-iconk {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 10px;
+            
+        }
+
+        /* Sidebar Below Header */
+        .sidebark {
+            width: 250px;
+            position: fixed;
+            left: -260px;
+            top: 50px; /* Position menu below the fixed header */
+            height: calc(100% - 50px); /* Adjust height to not overlap header */
+            background: #0056b3;
+            color: white;
+            transition: 0.2s;
+            padding-top: 10px;
+            overflow-y: auto;
+            z-index: 1000;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        
+
+        .sidebark a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: white;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        /* Remove hover effect */
+        .sidebark a:hover {
+            background: inherit;
+        }
+
+        .submenuk {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .showk {
+            display: block;
+        }
+
+        .openk {
+            left: 0;
+        }
+
+        /* Push main content down so it doesn't hide behind header */
+        .contentk {
+            padding-top: 60px;
+        }   
+        
+          
+        .fancy-line {
+  border: none;
+  border-top: 2px dashed #999;
+  margin: 0 0;
+}   
+  </style>
 </head>
 <body>
-
-<header>
-    <h1>SamoGyan</h1>
+    
+    <header>
+    <span class="menu-iconk" id="menu-iconk" onclick="toggleMenuk()">☰</span>
+ <h1 id="headerClick">SamoGyan</h1>
+    
 </header>
+<div class="sidebark" id="sidebark">
+        <a href="index.html">Home</a>
+        <a href="#" onclick="toggleSubmenuk()">Subject ▼</a>
+        <div class="submenuk" id="submenuk">
+            <a href="phy11.html">Physics 11</a>
+            <a href="che11.html">Chemistry 11</a>
+            <a href="math11.html">Maths 11</a>
+            <a href="p12.html">Physics 12</a>
+            <a href="chemistry12.html">Chemistry 12</a>
+            <a href="math12.html">Maths 12</a>
+        </div>
+        <a href="index.html#reso">Resources</a>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#contact">Contact Me</a>
+        
+        <a href="announcement.html">Announcements</a>
+        <a href="privacy.html">Privacy Policy</a>
+        
+                <a href="copyright.html">Copyright Policy</a>
+        
+        
+        
+        
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScsQnEDAjzB425J0jbAkjx58aG0ofqGPBNqsQ28t5hC1HHLYQ/viewform?embedded=true', '_blank', 'width=600,height=800">Feedback</a>
+    </div>
 
-
+    
+        
+    </div>
+    
 <div class="container">
     <div class="content">
-     <h1>Age Calculator</h1>
-        <label for="dob">Enter Your Date of Birth (mm/dd/yyyy):</label>
-        <input type="date" id="dob" name="dob">
+        <h1>Age Calculator</h1>
+        
+        <hr class="fancy-line">
+        
+        <label for="dob">Enter Your Date of Birth:</label>
+        <input type="date" id="dob"><label for="upTo">Calculate Age Up To:</label>
+    <input type="date" id="upTo">
 
-        <label for="upTo">Select the Date to Calculate Age Up To:</label>
-        <input type="date" id="upTo" name="upTo">
+    
 
-        <button class="btn" onclick="window.location.href='index.html'">Return</button>
-        <button onclick="calculateAge()">Calculate Age</button>
+    <label for="compareDob">Compare With Another DOB (Optional):</label>
+    <input type="date" id="compareDob">
+    <button class="calculate" onclick="calculateAge()">✨ Calculate Age ✨</button>
 
-        <div class="result" id="result"></div>
-    </div>
+    <div class="result" id="result"></div>
+
+    <button class="return" onclick="window.location.href='index.html'">Return</button>
 </div>
+
+</div>
+<div id="popup" class="popup"></div>
 <footer>
   <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
 </footer>
 
 <script>
-
-// footer-year.js
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
   const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
 });
 
+function showPopup(message) {
+  const popup = document.getElementById("popup");
+  popup.textContent = message;
+  popup.style.display = "block";
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 3000);
+}
 
+function calculateAge() {
+  const dobInput = document.getElementById("dob").value;
+  const upToInput = document.getElementById("upTo").value;
+  const compareInput = document.getElementById("compareDob").value;
+  const result = document.getElementById("result");
 
-    // Function to format date in dd/mm/yyyy format
-    function formatDate(date) {
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
+  if (!dobInput || !upToInput) {
+    showPopup("🚫 Please fill both dates!");
+    return;
+  }
+
+  const dob = new Date(dobInput);
+  const upTo = new Date(upToInput);
+
+  if (dob > new Date()) {
+    showPopup("🚫 Date of birth cannot be in the future!");
+    return;
+  }
+
+  if (upTo < dob) {
+    showPopup("🚫 'Up to' date must be after your birth date!");
+    return;
+  }
+
+  let years = upTo.getFullYear() - dob.getFullYear();
+  let months = upTo.getMonth() - dob.getMonth();
+  let days = upTo.getDate() - dob.getDate();
+
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(upTo.getFullYear(), upTo.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  const totalDays = Math.floor((upTo - dob) / (1000 * 60 * 60 * 24));
+
+  const nextBirthdayYear =
+    upTo.getMonth() > dob.getMonth() ||
+    (upTo.getMonth() === dob.getMonth() && upTo.getDate() >= dob.getDate())
+      ? upTo.getFullYear() + 1
+      : upTo.getFullYear();
+
+  const nextBirthday = new Date(nextBirthdayYear, dob.getMonth(), dob.getDate());
+  const daysToNextBirthday = Math.ceil((nextBirthday - upTo) / (1000 * 60 * 60 * 24));
+  const nextBirthdayDayName = nextBirthday.toLocaleDateString('en-US', { weekday: 'long' });
+
+  const formattedDate = new Date(upToInput).toLocaleDateString();
+
+  let comparisonResult = "";
+  if (compareInput) {
+    const compareDate = new Date(compareInput);
+    const diff = dob - compareDate;
+    if (diff > 0) {
+      comparisonResult = `<p>📏 You are <b>${Math.abs(Math.floor(diff / (1000 * 60 * 60 * 24)))}</b> days younger than compared person.</p>`;
+    } else if (diff < 0) {
+      comparisonResult = `<p>📏 You are <b>${Math.abs(Math.floor(diff / (1000 * 60 * 60 * 24)))}</b> days older than compared person.</p>`;
+    } else {
+      comparisonResult = `<p>🎉 You and the compared person have the same birthday!</p>`;
     }
+  }
 
-    // Set the current date as the default for both date of birth and "Up to" date
-    document.getElementById('dob').value = formatDate(new Date());
-    document.getElementById('upTo').value = formatDate(new Date());
+  // Function to update the live time display (hours, minutes, seconds)
+  function updateLiveTime() {
+    const now = new Date();
 
-    function calculateAge() {
-        const dob = document.getElementById('dob').value;
-        const upToDate = document.getElementById('upTo').value;
+    // Compare only dates (ignore time) for upTo and now
+    const upToDateOnly = new Date(upTo.getFullYear(), upTo.getMonth(), upTo.getDate());
+    const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-        if (!dob || !upToDate) {
-            alert('Please enter both dates!');
-            return;
+    // Use live current time if upTo date is today or future, else static upTo time
+    const referenceTime = upToDateOnly >= nowDateOnly ? now : upTo;
+
+    const totalSecondsLive = Math.floor((referenceTime - dob) / 1000);
+    const totalMinutesLive = Math.floor(totalSecondsLive / 60);
+    const totalHoursLive = Math.floor(totalMinutesLive / 60);
+
+    const secondsLive = totalSecondsLive % 60;
+    const minutesLive = totalMinutesLive % 60;
+    const hoursLive = totalHoursLive;
+
+    result.innerHTML = `
+      <p><b>📅 As of <span>${formattedDate}</span>:</b></p>
+      <p>👶 You are <span>${years} Years, ${months} Months, ${days} Days</span> old</p>
+      <p>🧮 You've lived <span>${totalDays}</span> days</p>
+      <p>⏱️ That's <span>${hoursLive}</span> hours / <span>${minutesLive}</span> minutes / <span>${secondsLive}</span> seconds</p>
+      <p>🎂 Next Birthday in <span>${daysToNextBirthday}</span> days (<span>${nextBirthdayDayName}</span>)</p>
+      ${comparisonResult}
+    `;
+  }
+
+  // Initial call
+  updateLiveTime();
+
+  // Update every second to keep seconds ticking live
+  clearInterval(window.ageInterval); // Clear previous interval if any
+  window.ageInterval = setInterval(updateLiveTime, 1000);
+}
+
+/* menu in header 🤕*/
+ function toggleMenuk() {
+            let sidebark = document.getElementById("sidebark");
+            let menuIconk = document.getElementById("menu-iconk");
+
+            sidebark.classList.toggle("openk");
+
+            // Change icon based on menu state
+            if (sidebark.classList.contains("openk")) {
+                menuIconk.innerHTML = "✖"; // Close icon
+            } else {
+                menuIconk.innerHTML = "☰"; // Menu icon
+            }
         }
 
-        const birthDate = new Date(dob.split('/').reverse().join('-')); // Convert dd/mm/yyyy to yyyy-mm-dd
-        const upTo = new Date(upToDate.split('/').reverse().join('-')); // Convert dd/mm/yyyy to yyyy-mm-dd
-
-        let age = upTo.getFullYear() - birthDate.getFullYear();
-        const m = upTo.getMonth() - birthDate.getMonth();
-
-        if (m < 0 || (m === 0 && upTo.getDate() < birthDate.getDate())) {
-            age--;
+        function toggleSubmenuk() {
+            document.getElementById("submenuk").classList.toggle("showk");
         }
-
-        const months = upTo.getMonth() - birthDate.getMonth();
-        const days = upTo.getDate() - birthDate.getDate();
-
-        let ageString = `${age} Years, ${months < 0 ? months + 12 : months} Months, ${days} Days`;
-
-        // Display result in dd/mm/yyyy format
-        document.getElementById('result').innerHTML = `<p>Your Age as of ${upToDate}: <span>${ageString}</span></p>`;
-    }
+        
 </script>
+
+
 
 </body>
 </html>
