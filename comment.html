@@ -5,13 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SamoGyan Comments</title>
   <style>
-      #infoBtn {
+      .info-btn {
   margin-left: 10px;
-  background: none;
+  padding: 8px 14px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10%;
+  background-color: #007bff;
+  color: white;
   border: none;
-  font-size: 1.2rem;
   cursor: pointer;
+  transition: background 0.3s;
 }
+
+.info-btn:hover {
+  background-color: #0056b3;
+}
+
+.info-btn:active {
+  transform: scale(0.95);
+}
+
 
 .modal {
   display: none;
@@ -131,6 +145,59 @@
       white-space: pre-wrap;
       font-size: 1rem;
     }
+
+
+
+
+.pinned {
+  background-color: #fffbe6;
+  border-left-color: #ffcc00;
+}
+
+.pin-label {
+  float: right;
+  font-size: 0.8em;
+  color: #ff9900;
+  font-weight: bold;
+}
+
+.custom-alert {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border: 2px solid #007bff;
+  color: #333;
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 90vw;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.custom-alert.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
   </style>
 </head>
 <body>
@@ -145,210 +212,14 @@
     <br />
     <button type="submit">Post Comment</button>
     
-<button type="button" id="infoBtn" title="Info">ℹ️</button>
+<<button type="button" id="infoBtn" class="info-btn" aria-label="Information">i</button>
+
     <div id="alertMsg">Comment posted!</div>
   </form>
 
   <div id="comments"></div>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    getDocs,
-    setDoc,
-    doc,
-    getDoc,
-    serverTimestamp,
-    query,
-    orderBy
-  } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDNCT34IkNLCPHfwIFz0cyr_0NQHy7YIGk",
-    authDomain: "samogyan-60d68.firebaseapp.com",
-    projectId: "samogyan-60d68",
-    storageBucket: "samogyan-60d68.appspot.com",
-    messagingSenderId: "241711635387",
-    appId: "1:241711635387:web:2ac38235dc19e960db829e",
-    measurementId: "G-ZP0ZB8M0V6"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  let visitorId = "";
-  let savedUsername = "";
-  const foulWords = [
-    "fuck", "shit", "bitch", "asshole", "dick", "pussy", "bsdk", "chutiya",
-    "madarchod", "bhenchod", "tatti", "rape", "motherfucker",
-    "f u", "f.u", "f.u.c.k", "admin-samogyan", "admin", "samogyan", "owner"
-  ];
-
-  async function loadFingerprint() {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js';
-      script.async = true;
-      script.onload = () => resolve(window.FingerprintJS);
-      script.onerror = () => reject(new Error("FingerprintJS failed to load"));
-      document.head.appendChild(script);
-    });
-  }
-
-  function containsFoulWord(text) {
-    // Clean input from special characters and extra spaces
-    const cleaned = text.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
-    // Check for exact foul words using word boundaries
-    return foulWords.some(word => new RegExp(`\\b${word}\\b`, 'i').test(cleaned));
-  }
-
-  function getInitials(name) {
-    return name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase();
-  }
-
-  async function init() {
-    const FingerprintJS = await loadFingerprint();
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    visitorId = result.visitorId;
-
-    const userDocRef = doc(db, "users", visitorId);
-    const userDoc = await getDoc(userDocRef);
-    const nameInput = document.querySelector('input[name="name"]');
-
-    if (userDoc.exists()) {
-      savedUsername = userDoc.data().name;
-      nameInput.value = savedUsername;
-      nameInput.readOnly = true;
-    } else {
-      nameInput.readOnly = false;
-      nameInput.value = "";
-    }
-
-    loadComments();
-
-    const form = document.getElementById("commentForm");
-    const alertMsg = document.getElementById("alertMsg");
-    alertMsg.style.display = "none";
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const commentText = form.comment.value.trim();
-      let nameText = savedUsername || form.name.value.trim();
-
-      if (!nameText) {
-        alert("Please enter your name.");
-        return;
-      }
-      if (!commentText) {
-        alert("Comment can't be empty.");
-        return;
-      }
-      if (containsFoulWord(nameText) || containsFoulWord(commentText)) {
-        alert("Please avoid using inappropriate language.");
-        return;
-      }
-
-      if (!savedUsername) {
-        await setDoc(doc(db, "users", visitorId), { name: nameText });
-        savedUsername = nameText;
-        form.name.readOnly = true;
-      }
-
-      await addDoc(collection(db, "comments"), {
-        name: nameText,
-        comment: commentText,
-        createdAt: serverTimestamp(),
-        visitorId: visitorId,
-      });
-
-      form.comment.value = "";
-      alertMsg.style.display = "block";
-      setTimeout(() => (alertMsg.style.display = "none"), 2500);
-      loadComments();
-    });
-  }
-
-  async function loadComments() {
-    const commentsContainer = document.getElementById("comments");
-    commentsContainer.innerHTML = "Loading comments...";
-
-    const commentsQuery = query(collection(db, "comments"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(commentsQuery);
-
-    commentsContainer.innerHTML = "";
-    if (querySnapshot.empty) {
-      commentsContainer.innerHTML = "<p>No comments yet. Be the first!</p>";
-      return;
-    }
-
-    querySnapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const name = data.name || "Anonymous";
-      const commentText = data.comment || "";
-
-      let time = "Just now";
-      if (data.createdAt) {
-        const dateObj = data.createdAt.toDate();
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-
-        let hours = dateObj.getHours();
-        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // 0 becomes 12
-
-        const timeStr = `${hours}:${minutes} ${ampm}`;
-        time = `${day}-${month}-${year} at ${timeStr}`;
-      }
-
-      const initials = getInitials(name);
-
-      const commentEl = document.createElement("div");
-      commentEl.className = "comment-box";
-
-      commentEl.innerHTML = `
-        <div class="profile-circle">${initials}</div>
-        <div class="comment-content">
-          <div class="comment-header">
-            <div>
-              <span class="comment-username">${name}</span>
-              <span class="comment-time">${time}</span>
-            </div>
-          </div>
-          <div class="comment-text">${escapeHtml(commentText)}</div>
-        </div>
-      `;
-
-      commentsContainer.appendChild(commentEl);
-    });
-  }
-
-  function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  window.onload = () => {
-    init().catch(console.error);
-  };
-
-  // Info Modal Logic
-  const infoBtn = document.getElementById("infoBtn");
-  const modal = document.getElementById("infoModal");
-  const closeModal = document.getElementById("closeModal");
-
-  infoBtn.onclick = () => modal.style.display = "block";
-  closeModal.onclick = () => modal.style.display = "none";
-  window.onclick = (e) => {
-    if (e.target == modal) modal.style.display = "none";
-  };
-</script>
+  <script type="module" src="comment.js"></script>
   
   
   
