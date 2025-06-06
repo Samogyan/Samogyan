@@ -472,6 +472,7 @@ function calculateAge() {
     return;
   }
 
+  // Calculate years, months, days
   let years = upTo.getFullYear() - dob.getFullYear();
   let months = upTo.getMonth() - dob.getMonth();
   let days = upTo.getDate() - dob.getDate();
@@ -487,8 +488,10 @@ function calculateAge() {
     months += 12;
   }
 
+  // Total days lived
   const totalDays = Math.floor((upTo - dob) / (1000 * 60 * 60 * 24));
 
+  // Next birthday calculation
   const nextBirthdayYear =
     upTo.getMonth() > dob.getMonth() ||
     (upTo.getMonth() === dob.getMonth() && upTo.getDate() >= dob.getDate())
@@ -497,10 +500,11 @@ function calculateAge() {
 
   const nextBirthday = new Date(nextBirthdayYear, dob.getMonth(), dob.getDate());
   const daysToNextBirthday = Math.ceil((nextBirthday - upTo) / (1000 * 60 * 60 * 24));
-  const nextBirthdayDayName = nextBirthday.toLocaleDateString('en-US', { weekday: 'long' });
+  const nextBirthdayDayName = nextBirthday.toLocaleDateString("en-US", { weekday: "long" });
 
-  const formattedDate = new Date(upToInput).toLocaleDateString();
+  const formattedDate = upTo.toLocaleDateString();
 
+  // Comparison feature
   let comparisonResult = "";
   if (compareInput) {
     const compareDate = new Date(compareInput);
@@ -514,61 +518,33 @@ function calculateAge() {
     }
   }
 
-  // Function to update the live time display (hours, minutes, seconds)
-  function updateLiveTime() {
-    const now = new Date();
-
-    // Compare only dates (ignore time) for upTo and now
-    const upToDateOnly = new Date(upTo.getFullYear(), upTo.getMonth(), upTo.getDate());
-    const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    // Use live current time if upTo date is today or future, else static upTo time
-    const referenceTime = upToDateOnly >= nowDateOnly ? now : upTo;
-
-    const totalSecondsLive = Math.floor((referenceTime - dob) / 1000);
-    const totalMinutesLive = Math.floor(totalSecondsLive / 60);
-    const totalHoursLive = Math.floor(totalMinutesLive / 60);
-
-    const secondsLive = totalSecondsLive % 60;
-    const minutesLive = totalMinutesLive % 60;
-    const hoursLive = totalHoursLive;
-
-    result.innerHTML = `
-      <p><b>📅 As of <span>${formattedDate}</span>:</b></p>
-      <p>👶 You are <span>${years} Years, ${months} Months, ${days} Days</span> old</p>
-      <p>🧮 You've lived <span>${totalDays}</span> days</p>
-      <p>⏱️ That's <span>${hoursLive}</span> hours / <span>${minutesLive}</span> minutes / <span>${secondsLive}</span> seconds</p>
-      <p>🎂 Next Birthday in <span>${daysToNextBirthday}</span> days (<span>${nextBirthdayDayName}</span>)</p>
-      ${comparisonResult}
-    `;
-  }
-
-  // Initial call
-  updateLiveTime();
-
-  // Update every second to keep seconds ticking live
-  clearInterval(window.ageInterval); // Clear previous interval if any
-  window.ageInterval = setInterval(updateLiveTime, 1000);
+  // Show results without hours, minutes, seconds
+  result.innerHTML = `
+    <p><b>📅 As of <span>${formattedDate}</span>:</b></p>
+    <p>👶 You are <span>${years} Years, ${months} Months, ${days} Days</span> old</p>
+    <p>🧮 You've lived <span>${totalDays}</span> days</p>
+    <p>🎂 Next Birthday in <span>${daysToNextBirthday}</span> days (<span>${nextBirthdayDayName}</span>)</p>
+    ${comparisonResult}
+  `;
 }
 
-/* menu in header 🤕*/
- function toggleMenuk() {
-            let sidebark = document.getElementById("sidebark");
-            let menuIconk = document.getElementById("menu-iconk");
+/* Menu in header 🤕 */
+function toggleMenuk() {
+  let sidebark = document.getElementById("sidebark");
+  let menuIconk = document.getElementById("menu-iconk");
 
-            sidebark.classList.toggle("openk");
+  sidebark.classList.toggle("openk");
 
-            // Change icon based on menu state
-            if (sidebark.classList.contains("openk")) {
-                menuIconk.innerHTML = "✖"; // Close icon
-            } else {
-                menuIconk.innerHTML = "☰"; // Menu icon
-            }
-        }
+  if (sidebark.classList.contains("openk")) {
+    menuIconk.innerHTML = "✖"; // Close icon
+  } else {
+    menuIconk.innerHTML = "☰"; // Menu icon
+  }
+}
 
-        function toggleSubmenuk() {
-            document.getElementById("submenuk").classList.toggle("showk");
-        }
+function toggleSubmenuk() {
+  document.getElementById("submenuk").classList.toggle("showk");
+}
         
 </script>
 
