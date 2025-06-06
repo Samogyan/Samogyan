@@ -109,3 +109,14 @@ document.getElementById("headerClick").addEventListener("click", function () {
         function toggleSubmenuk() {
             document.getElementById("submenuk").classList.toggle("showk");
         }
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
+
+
