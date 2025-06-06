@@ -86,8 +86,8 @@ function toggleExtra(extraId) {
 
 
 /* header clicking*/
-document.getElementById("headerClick").addEventListener("click", function () {
-    window.location.href = "index.html"; // Redirects to the homepage
+document.getElementById("headerClick").addEventListener("click", function (event) {
+    event.preventDefault(); // noo Redirects to the homepage
 });
 
 
