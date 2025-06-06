@@ -31,14 +31,14 @@
     .wrapper {
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      min-height: 10vh;
     }
 
 
 header {
     width: 100%;
     height: 80px; /* Controls the strip height */
-    background: #007bff;
+    background: linear-gradient(45deg, #007bff, #0056b3);
     color: white;
     display: flex;
     align-items: center; /* Vertically centers text */
@@ -49,23 +49,43 @@ header {
     position: fixed; /* Fixes header at top */
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 9000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 0 20px; /* Adds padding inside */
     position: fixed;
+}
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px; /* Moves it to the left edge */
+}
+
+/* Centering Study Point */
+header h1 {
+    flex-grow: 1; 
+    text-align: center;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 
     
     main {
       flex: 1;
-      padding: 20px;
+      padding: 10px;
+      margin-top: 10px;
     }
 
     .message-container {
       max-width: 800px;
       margin: 0 auto;
-      margin-top: 80px;
+      margin-top: 10px;
     }
 
     .message-card {
@@ -96,15 +116,20 @@ header {
     }
 
     footer {
-    background: #007bff;
-    color: white;
-    text-align: center;
-    padding: 2px 0; /* Reduce padding */
-    height: 40px; /* Set a fixed height */
-    width: 100%;
-    position: fix;
-    bottom: 0;
-    line-height: 30px; /* Vertically centers text */
+    position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: #007bff;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.9rem;
+      box-shadow: 0 -3px 8px rgba(0,0,0,0.25);
+      user-select: none;
+      z-index: 100;
 } 
 
     @media (max-width: 600px) {
@@ -112,10 +137,74 @@ header {
         font-size: 1.5rem;
         padding: 15px;
       }
+      
+      
       main {
-        padding: 15px;
+        padding: 10px;
       }
     }
+    
+     
+    /* 🤕🤕menuuk */
+   .menu-iconk {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 10px;
+            
+        }
+
+        /* Sidebar Below Header */
+        .sidebark {
+            width: 250px;
+            position: fixed;
+            left: -260px;
+            top: 50px; /* Position menu below the fixed header */
+            height: calc(100% - 50px); /* Adjust height to not overlap header */
+            background: #0056b3;
+            color: white;
+            transition: 0.2s;
+            padding-top: 10px;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-top:15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        
+
+        .sidebark a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: white;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        /* Remove hover effect */
+        .sidebark a:hover {
+            background: inherit;
+        }
+
+        .submenuk {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .showk {
+            display: block;
+        }
+
+        .openk {
+            left: 0;
+        }
+
+        /* Push main content down so it doesn't hide behind header */
+        .contentk {
+            padding-top: 60px;
+        }   
+        
+          
   </style>
 </head>
 <body>
@@ -123,10 +212,37 @@ header {
 
 
 <header>
-    <h2>SamoGyan</h2>
+    <span class="menu-iconk" id="menu-iconk" onclick="toggleMenuk()">☰</span>
+ <h1 id="headerClick">SamoGyan</h1>
     
 </header>
 
+<div class="sidebark" id="sidebark">
+        <a href="index.html">Home</a>
+        <a href="#" onclick="toggleSubmenuk()">Subject ▼</a>
+        <div class="submenuk" id="submenuk">
+            <a href="phy11.html">Physics 11</a>
+            <a href="che11.html">Chemistry 11</a>
+            <a href="math11.html">Maths 11</a>
+            <a href="p12.html">Physics 12</a>
+            <a href="chemistry12.html">Chemistry 12</a>
+            <a href="math12.html">Maths 12</a>
+        </div>
+        <a href="index.html#reso">Resources</a>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#contact">Contact Me</a>
+        
+        <a href="announcement.html">Announcements</a>
+        <a href="privacy.html">Privacy Policy</a>
+        
+                <a href="copyright.html">Copyright Policy</a>
+        
+        
+        
+        
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScsQnEDAjzB425J0jbAkjx58aG0ofqGPBNqsQ28t5hC1HHLYQ/viewform?embedded=true', '_blank', 'width=600,height=800">Feedback</a>
+    </div>
+ </div>
     
       
     
@@ -139,69 +255,91 @@ header {
 
       <h2>📢 Admin Announcements</h2>
  <!-- Add more messages here as needed -->
-            
-            
-            
-            
-            
-            
+        
             
             <div class="message-card">
-          <div class="date">Date: 2025-05-27</div>
+          <div class="date">Date: 30-05-2025</div>
           <div class="title">🗣️we hear you</div>
           <div class="content">
-            Drop your suggestion about samogyan website to nake it more relevant for you.
+            Drop your suggestion about samogyan website to make it more relevant for you.
           </div>
         </div>
       
       
       
-      
-      
-      
-      
-      
         <!-- Admin Message 1 -->
         <div class="message-card">
-          <div class="date">Date: 2025-04-28</div>
+          <div class="date">Date: 28-04-2025</div>
           <div class="title">🎉 New Tool Released!</div>
           <div class="content">
             We have added a new BMI Calculator to the Tools section. Go try it and share your feedback!
           </div>
         </div>
 
+
+
         <!-- Admin Message 2 -->
-        <div class="message-card">
-          <div class="date">Date: 2025-03-26</div>
-          <div class="title">🛠️ Website Maintenance</div>
-          <div class="content">
-            SamoGyan will be under maintenance on June 1 from 12 AM to 2 AM. Please plan accordingly.
-          </div>
-        </div>
+        
 
-  
 
-      </div>
+
+
+
+
+
+     
+
+
+
+
+
+ </div>
     </main>
+
 
     <footer>
        <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
     </footer>
     
-    
-    
-    
-    
   </div>
   
   
-  <script>// footer-year.js
+  
+  
+  
+  
+  
+  
+  <script>
+      
+      
 document.addEventListener("DOMContentLoaded", () => {
   const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
-});</script>
+});
+
+
+/* Menu in header 🤕 */
+function toggleMenuk() {
+  let sidebark = document.getElementById("sidebark");
+  let menuIconk = document.getElementById("menu-iconk");
+
+  sidebark.classList.toggle("openk");
+
+  if (sidebark.classList.contains("openk")) {
+    menuIconk.innerHTML = "✖"; // Close icon
+  } else {
+    menuIconk.innerHTML = "☰"; // Menu icon
+  }
+}
+
+function toggleSubmenuk() {
+  document.getElementById("submenuk").classList.toggle("showk");
+}
+
+</script>
   
 </body>
 </html>
