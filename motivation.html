@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QWMYCQEPC3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-QWMYCQEPC3');
-</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SamoGyan - Motivational Quotes</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Motivational Quotes - SamoGyan</title>
   <style>
     * {
       margin: 0;
@@ -29,26 +20,71 @@
       flex-direction: column;
       align-items: center;
       overflow-x: hidden;
-  
+      }
 
-    }
-
-    header {
-      width: 100%;
-      background: linear-gradient(45deg, #007bff, #0056b3);
-      padding: 20px 0;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-
+ header {
+    width: 100%;
+    height: 80px; /* Controls the strip height */
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    display: flex;
+    align-items: center; /* Vertically centers text */
     
-    header h1 {
-      color: white;
-      font-size: 2.5rem;
-      letter-spacing: 1px;
-    }
+    justify-content: center; /* Centers text */
+    font-size: 2rem;
+    font-weight: bold;
+    position: fixed; /* Fixes header at top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0 20px; /* Adds padding inside */
+    position: fixed;
+}
 
+  .menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px; /* Moves it to the left edge */
+}
+
+/* Centering Study Point */
+header h1 {
+    flex-grow: 1; 
+    text-align: center;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+
+    footer {
+      position: flex;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.9rem;
+      box-shadow: 0 -3px 8px rgba(0,0,0,0.25);
+      user-select: none;
+      z-index: 100;
+      margin-top: 20px;
+    }
+ 
+ 
+ 
+ 
+    
     main {
       margin-top: 40px;
       width: 90%;
@@ -70,8 +106,8 @@
       background: #ce55ff;
       color: white;
       border: none;
-      border-radius: 50%;
-      width: 40px;
+      border-radius: 10px;
+      width: 90px;
       height: 40px;
       font-size: 1.2rem;
       display: flex;
@@ -79,6 +115,7 @@
       justify-content: center;
       cursor: pointer;
       margin-bottom: 20px;
+      margin-top: 20px;
       transition: background 0.3s;
     }
 
@@ -139,17 +176,112 @@
         padding: 20px;
       }
     }
+    
+       .menu-iconk {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Sidebar Below Header */
+        .sidebark {
+            width: 250px;
+            position: fixed;
+            left: -260px;
+            top: 70px; /* Position menu below the fixed header */
+            height: calc(100% - 50px); /* Adjust height to not overlap header */
+            background: #0056b3;
+            color: white;
+            transition: 0.2s;
+            padding-top: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        
+
+        .sidebark a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: white;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        /* Remove hover effect */
+        .sidebark a:hover {
+            background: inherit;
+        }
+
+        .submenuk {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .showk {
+            display: block;
+        }
+
+        .openk {
+            left: 0;
+        }
+
+        /* Push main content down so it doesn't hide behind header */
+        .contentk {
+            padding-top: 60px;
+        }        
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>SamoGyan</h1>
-  </header>
+  
+ 
+    <header>  
+    <span class="menu-iconk" id="menu-iconk" onclick="toggleMenuk()">☰</span>
+ <h1 id="headerClick">SamoGyan</h1>
+    
+</header>
+<!-- 📌 Sidebar Menu (Hidden by Default) -->
+    <div class="sidebark" id="sidebark">
+        <a href="index.html">Home</a>
+        <a href="#" onclick="toggleSubmenuk()">Subject ▼</a>
+        <div class="submenuk" id="submenuk">
+            <a href="phy11.html">Physics 11</a>
+            <a href="che11.html">Chemistry 11</a>
+            <a href="math11.html">Maths 11</a>
+            <a href="p12.html">Physics 12</a>
+            <a href="chemistry12.html">Chemistry 12</a>
+            <a href="math12.html">Maths 12</a>
+        </div>
+        <a href="index.html#reso">Resources</a>
+        <a href="index.html#about">About Us</a>
+        <a href="index.html#contact">Contact Me</a>
+        
+        <a href="announcement.html">Announcements</a>
+        <a href="privacy.html">Privacy Policy</a>
+        
+                <a href="copyright.html">Copyright Policy</a>
+        
+       
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScsQnEDAjzB425J0jbAkjx58aG0ofqGPBNqsQ28t5hC1HHLYQ/viewform?embedded=true', '_blank', 'width=600,height=800">Feedback</a>
+    </div>
+
+    
+        
+    </div>
+
+
 
   <main>
+      
     <h2><strong>Daily Motivation</strong></h2>
-    <button class="refresh-btn" onclick="refreshQuotes()">&#8635;</button>
+   
+   
+   
+    <button class="refresh-btn" onclick="refreshQuotes()">Refresh</button>
+    
+    
     <div id="quote-container"></div>
 
     <section class="benefits-box">
@@ -165,22 +297,12 @@
       </ul>
     </section>
 
-    <footer>
+    
+  </main>
+<footer>
   <p>© <span id="year">2025</span> SamoGyan | All Rights Reserved.</p>
 </footer>
-  </main>
-
   <script>
-
-// footer-year.js
-document.addEventListener("DOMContentLoaded", () => {
-  const yearSpan = document.getElementById("year");
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
-});
-
-
     const quotes = [
       "Push yourself, because no one else is going to do it for you.",
       "Success doesn’t just find you. You have to go out and get it.",
@@ -229,37 +351,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "Love is the only force capable of transforming an enemy into a friend.",
       "This too shall pass.",
       "Even the darkest night will end and the sun will rise.",
-      "You are stronger than your struggles.","Don’t wait for opportunity. Create it.", 
-"Every great journey starts with a small step.", 
-"Be stronger than your excuses.", 
-"You don’t have to be perfect, just brave.", 
-"Success is not in what you have, but who you become.", 
-"Work hard in silence, let success make the noise.", 
-"Dream big. Start small. Act now.", 
-"Discipline is doing it even when you don’t feel like it.", 
-"Push yourself, because no one else is going to do it for you.", 
-"Someday, all your ‘late nights’ will pay off.", 
-"You are not behind. You’re just building something meaningful.", 
-"The comeback is always stronger than the setback.", 
-"Progress is progress, no matter how small.", 
-"Storms don’t last forever. Keep walking.", 
-"Your future self will thank you for not giving up.", 
-"Start where you are. Use what you have. Do what you can.", 
-"Little by little, a little becomes a lot.", 
-"Success is the sum of small efforts repeated daily.", 
-"Make today so awesome that yesterday gets jealous.", 
-"The secret to getting ahead is getting started.",
+      "You are stronger than your struggles.",
       "It’s okay to ask for help and take time to heal.",
-      "Your story isn’t over yet; keep fighting.","Your journey is not defined by the pace of others. It’s okay to grow slowly, as long as you’re still growing. Every step forward, no matter how small, is still progress.",
-"Sometimes you won’t be motivated, and that’s okay. Show up anyway. The days you feel weakest might be the ones that shape you the most.",
-"The people who achieve the most are not the ones who never fall, but the ones who rise every single time with more clarity, more strength, and more purpose.",
-"There will be days when everything feels heavy and uncertain — but even in those moments, you have the power to show up, breathe deep, and keep going.",
-"You don’t have to have it all figured out to keep moving forward. Clarity comes through action, not overthinking.",
-"The strongest people aren’t those who show strength in front of the world, but those who fight silent battles and keep going with a smile.",
-"The dream you’re chasing might feel far away, but every single effort, every late night, and every small win is bringing it closer than you think.",
-"It’s okay to rest, to cry, to feel tired — just don’t quit. Even broken crayons still color, and even tired hearts still beat for purpose.",
-"Your value isn’t measured by how quickly you succeed, but by the courage you show when success feels far away and you keep going anyway.",
-"Behind every successful person is a story full of struggle, self-doubt, and silent resilience. You are writing your story right now — make it powerful."
+      "Your story isn’t over yet; keep fighting."
     ];
 
     function getRandomQuotes(num) {
@@ -281,6 +375,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Load quotes on initial visit
     refreshQuotes();
+    
+    
+    
+    function toggleMenuk() {
+            let sidebark = document.getElementById("sidebark");
+            let menuIconk = document.getElementById("menu-iconk");
+
+            sidebark.classList.toggle("openk");
+
+            // Change icon based on menu state
+            if (sidebark.classList.contains("openk")) {
+                menuIconk.innerHTML = "✖"; // Close icon
+            } else {
+                menuIconk.innerHTML = "☰"; // Menu icon
+            }
+        }
+
+        function toggleSubmenuk() {
+            document.getElementById("submenuk").classList.toggle("showk");
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+});
   </script>
 
 </body>
